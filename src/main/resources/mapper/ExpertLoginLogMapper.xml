@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.expert.admin.mapper.ExpertLoginLogMapper">
+    
+    <select id="findByExpertIdOrderByLoginTimeDesc" resultType="com.expert.admin.entity.ExpertLoginLog">
+        SELECT * FROM expert_login_logs 
+        WHERE expert_id = #{expertId}
+        ORDER BY login_time DESC
+    </select>
+    
+</mapper>

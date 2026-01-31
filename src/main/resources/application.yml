@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: expert-admin-api
+  
+  datasource:
+    url: jdbc:mysql://localhost:3306/expert?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    #url: jdbc:mysql://192.168.66.209:3306/expert?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 30000
+  
+  # MyBatis Plus配置
+  mybatis-plus:
+    mapper-locations: classpath*:/mapper/**/*.xml
+    type-aliases-package: com.expert.admin.entity
+    configuration:
+      map-underscore-to-camel-case: true
+      log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+    global-config:
+      db-config:
+        id-type: auto
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+jwt:
+  secret: expert-admin-secret-key-2026-jhzlb-voting-system-secure-key-for-jwt-token-generation
+  expiration: 86400000  # 24小时
+
+logging:
+  level:
+    com.expert.admin: DEBUG
+    org.springframework.web: INFO
+    com.baomidou.mybatisplus: DEBUG

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.expert.admin.mapper.VotingSessionMapper">
+    
+    <select id="findBySessionGuid" resultType="com.expert.admin.entity.VotingSession">
+        SELECT * FROM voting_sessions 
+        WHERE session_guid = #{sessionGuid}
+        LIMIT 1
+    </select>
+    
+    <select id="findByProjectTypeId" resultType="com.expert.admin.entity.VotingSession">
+        SELECT * FROM voting_sessions 
+        WHERE project_type_id = #{projectTypeId}
+        ORDER BY created_at DESC
+    </select>
+    
+    <select id="findByStatus" resultType="com.expert.admin.entity.VotingSession">
+        SELECT * FROM voting_sessions 
+        WHERE status = #{status}
+        ORDER BY created_at DESC
+    </select>
+    
+</mapper>

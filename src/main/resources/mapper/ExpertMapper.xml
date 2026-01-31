@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.expert.admin.mapper.ExpertMapper">
+    
+    <select id="findByPhone" resultType="com.expert.admin.entity.Expert">
+        SELECT * FROM experts 
+        WHERE phone = #{phone}
+        LIMIT 1
+    </select>
+    
+    <select id="searchExperts" resultType="com.expert.admin.entity.Expert">
+        SELECT * FROM experts
+        <where>
+            <if test="name != null and name != ''">
+                AND name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="phone != null and phone != ''">
+                AND phone LIKE CONCAT('%', #{phone}, '%')
+            </if>
+            <if test="isActive != null">
+                AND is_active = #{isActive}
+            </if>
+        </where>
+        ORDER BY id ASC
+    </select>
+    
+</mapper>

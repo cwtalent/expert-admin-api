@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.expert.admin.mapper.VoteMapper">
+    
+    <select id="findBySessionGuid" resultType="com.expert.admin.entity.Vote">
+        SELECT * FROM votes 
+        WHERE session_guid = #{sessionGuid}
+        ORDER BY vote_time DESC
+    </select>
+    
+    <select id="findBySessionGuidAndRoundNumber" resultType="com.expert.admin.entity.Vote">
+        SELECT * FROM votes 
+        WHERE session_guid = #{sessionGuid} AND round_number = #{roundNumber}
+        ORDER BY vote_time DESC
+    </select>
+    
+    <select id="findByProjectId" resultType="com.expert.admin.entity.Vote">
+        SELECT * FROM votes 
+        WHERE project_id = #{projectId}
+        ORDER BY vote_time DESC
+    </select>
+    
+    <select id="findByExpertId" resultType="com.expert.admin.entity.Vote">
+        SELECT * FROM votes 
+        WHERE expert_id = #{expertId}
+        ORDER BY vote_time DESC
+    </select>
+    
+    <select id="findByProjectTypeId" resultType="com.expert.admin.entity.Vote">
+        SELECT * FROM votes 
+        WHERE project_type_id = #{projectTypeId}
+        ORDER BY vote_time DESC
+    </select>
+    
+    <select id="countDistinctExpertsBySessionAndRound" resultType="java.lang.Long">
+        SELECT COUNT(DISTINCT expert_id) FROM votes 
+        WHERE session_guid = #{sessionGuid} AND round_number = #{roundNumber}
+    </select>
+    
+    <select id="findAllWithPagination" resultType="com.expert.admin.entity.Vote">
+        SELECT * FROM votes
+        ORDER BY id ASC
+    </select>
+    
+    <select id="searchVotes" resultType="com.expert.admin.entity.Vote">
+        SELECT v.*
+        FROM votes v
+        LEFT JOIN projects p ON v.project_id = p.id
+        LEFT JOIN experts e ON v.expert_id = e.id
+        LEFT JOIN voting_sessions vs ON v.session_guid = vs.session_guid
+        <where>
+            <if test="projectTypeId != null">
+                AND v.project_type_id = #{projectTypeId}
+            </if>
+            <if test="startedAtFrom != null">
+                AND vs.started_at &gt;= #{startedAtFrom}
+            </if>
+            <if test="startedAtTo != null">
+                AND vs.started_at &lt;= #{startedAtTo}
+            </if>
+            <if test="closedAtFrom != null">
+                AND vs.closed_at &gt;= #{closedAtFrom}
+            </if>
+            <if test="closedAtTo != null">
+                AND vs.closed_at &lt;= #{closedAtTo}
+            </if>
+            <if test="roundNumber != null">
+                AND v.round_number = #{roundNumber}
+            </if>
+            <if test="projectName != null and projectName != ''">
+                AND p.project_name LIKE CONCAT('%', #{projectName}, '%')
+            </if>
+            <if test="expertName != null and expertName != ''">
+                AND e.name LIKE CONCAT('%', #{expertName}, '%')
+            </if>
+            <if test="awardLevel != null and awardLevel != ''">
+                AND v.award_level = #{awardLevel}
+            </if>
+        </where>
+        ORDER BY v.id ASC
+    </select>
+    
+</mapper>
