@@ -86,6 +86,8 @@ CREATE TABLE IF NOT EXISTS `voting_sessions` (
   `qr_code_url` VARCHAR(500) NULL COMMENT '二维码图片URL或base64',
   `voting_url` VARCHAR(500) NOT NULL COMMENT '投票页面URL',
   `status` VARCHAR(20) NOT NULL DEFAULT 'pending' COMMENT '状态: pending/active/completed/closed',
+  `current_round_number` INT NOT NULL DEFAULT 1 COMMENT '当前投票轮次',
+  `current_award_level` ENUM('1st', '2nd', '3rd') NULL COMMENT '当前投票轮次对应的奖级，NULL表示从一等奖开始',
   `started_at` DATETIME NULL COMMENT '开始时间',
   `closed_at` DATETIME NULL COMMENT '结束时间',
   `created_by` VARCHAR(100) NULL COMMENT '创建人',
